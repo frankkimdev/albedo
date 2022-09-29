@@ -40,7 +40,7 @@ public class PostsApiControllerTest {
     @Test
     public void Posts_등록된다() throws Exception {
         //given
-        String title = "title";
+        String title = "title"; //
         String content = "contenta";
         PostsSaveRequestDto requestDto = PostsSaveRequestDto.builder()
                 .title(title)
