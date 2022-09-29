@@ -89,9 +89,8 @@ public class PostsApiControllerTest {
 
         HttpEntity<PostsUpdateRequestDto> requestEntity = new HttpEntity<>(requestDto);
 
-        System.out.println(requestEntity.getBody());
         //when
-        ResponseEntity<Long> responseEntity = restTemplate.postForEntity(url, requestEntity, Long.class);
+        ResponseEntity<Long> responseEntity = restTemplate.exchange(url, HttpMethod.PUT, requestEntity, Long.class);
 
         //then
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
