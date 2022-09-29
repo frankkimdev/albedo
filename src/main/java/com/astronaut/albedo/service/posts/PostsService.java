@@ -1,7 +1,10 @@
 package com.astronaut.albedo.service.posts;
 
+import com.astronaut.albedo.domain.posts.Posts;
 import com.astronaut.albedo.domain.posts.PostsRepository;
+import com.astronaut.albedo.web.dto.PostsResponseDto;
 import com.astronaut.albedo.web.dto.PostsSaveRequestDto;
+import com.astronaut.albedo.web.dto.PostsUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,6 +16,25 @@ public class PostsService {
 
     @Transactional
     public Long save(PostsSaveRequestDto requestDto) {
-        return postsRepository.save(requestDto.to
+        return postsRepository.save(requestDto.toEntity()).getId();
     }
+
+
+    public Long update(Long id, PostsUpdateRequestDto requestDto){
+        Posts posts = postsRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id=" + id));
+
+        posts.update(requestDto.getTitle(), requestDto.getContent());
+
+        return id;
+    }
+
+
+    public PostsResponseDto findById(Long id) {
+        Posts entity = postsRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id=" + id));
+
+        return new PostsResponseDto(entity);
+    }
+
 }
