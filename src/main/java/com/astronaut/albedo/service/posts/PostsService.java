@@ -18,6 +18,13 @@ import java.util.stream.Collectors;
 public class PostsService {
     private final PostsRepository postsRepository;
 
+    @Transactional
+    public void delete (Long id) {
+        Posts posts = postsRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id=" + id));
+        postsRepository.delete(posts);
+    }
+
     //frank_북마크 : 148 page
     @Transactional(readOnly = true)
     public List<PostsListResponseDto> findAllDesc() {
